@@ -116,7 +116,7 @@ const MainContent = () => {
         {/* Пошук по сайту */}
         <div className="search">
           <button>
-            <img src="/src/assets/images/search.svg" alt="Search" />
+            <img src="/assets/images/search.svg" alt="Search" />
           </button>
           <input
             type="text"
@@ -163,22 +163,22 @@ const MainContent = () => {
   {[
     {
       sales: 1000,
-      icon: "/src/assets/images/today_sales/total_sales.svg",
+      icon: "/assets/images/today_sales/total_sales.svg",
       label: "Total Sales",
     },
     {
       sales: 1200,
-      icon: "/src/assets/images/today_sales/total_order.svg",
+      icon: "/assets/images/today_sales/total_order.svg",
       label: "Total Orders",
     },
     {
       sales: 1500,
-      icon: "/src/assets/images/today_sales/product_sold.svg",
+      icon: "/assets/images/today_sales/product_sold.svg",
       label: "Products Sold",
     },
     {
       sales: 1100,
-      icon: "/src/assets/images/today_sales/new_customer.svg",
+      icon: "/assets/images/today_sales/new_customer.svg",
       label: "New Customers",
     },
   ].map((item, index) => (
