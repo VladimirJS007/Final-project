@@ -1,0 +1,22 @@
+{
+    "test@gmail.com": {
+      "avatar": "/assets/images/avatar_profile.png",
+      "name": "John Smith",
+      "role":"sales manager",
+      "monthlySales": {
+        "January": 20,
+        "February": 30,
+        "March": 40,
+        "April": 25,
+        "May": 50,
+        "June": 60,
+        "July": 55,
+        "August": 65,
+        "September": 40,
+        "October": 90,
+        "November": 110,
+        "December": 120
+      }
+    }
+  }
+  

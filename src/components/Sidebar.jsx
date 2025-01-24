@@ -1,11 +1,14 @@
+import { Link } from "react-router-dom";  // Імпортуємо Link з react-router-dom
 import "./Sidebar.css";
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
       <ul>
-        <li><img src="/assets/images/menu_img/li_dashboard.svg" alt="li_dashboard" />Dashboard</li>
-        <li><img src="/assets/images/menu_img/li_profile.svg" alt="li_profile" />Profile</li>
+        {/* Додаємо посилання на головну сторінку */}
+        <li><Link to="/"><img src="/assets/images/menu_img/li_dashboard.svg" alt="li_dashboard" />Dashboard</Link></li>
+        {/* Посилання на сторінку профілю */}
+        <li><Link to="/profile"><img src="/assets/images/menu_img/li_profile.svg" alt="li_profile" />Profile</Link></li>
         <li><img src="/assets/images/menu_img/li_leader.svg" alt="li_leader" />Leaderboard</li>
         <li><img src="/assets/images/menu_img/li_order.svg" alt="li_order" />Order</li>
         <li><img src="/assets/images/menu_img/li_product.svg" alt="li_product" />Product</li>

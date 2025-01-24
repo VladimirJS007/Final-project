@@ -44,7 +44,7 @@
   display: flex;
   gap: 1.5rem;
   color: white;
- }
+}
 
 .currency span {
   font-weight: bold;
@@ -104,7 +104,7 @@
   text-align: center;
 }
 
-.counter img{
+.counter img {
   width: 20%;
   margin-bottom: 1rem;
 }
@@ -113,7 +113,7 @@
   font-size: 1.1rem;
 }
 
-.counter span  {
+.counter span {
   font-size: 1.4rem;
 }
 
@@ -126,8 +126,8 @@
 .top-products-table thead th {
   text-align: left;
   font-size: 1.2rem;
-  color: #87888C;
-  border-bottom: 1px solid #282c34; 
+  color: #87888c;
+  border-bottom: 1px solid #282c34;
   padding-bottom: 8px;
 }
 
@@ -152,20 +152,29 @@
   height: 4vh;
   margin: 2%;
   padding: 0 5px 4px 5px;
-  border-radius: 5px; 
+  border-radius: 5px;
 }
 
 @media (max-width: 768px) {
+  .main-content {
+    padding: 0;
+  }
+
   .section {
-    width: 100%; 
+    width: 85%;
   }
 
   .search-and-currency {
-    flex-direction: column; 
+    flex-direction: column;
     gap: 10px;
   }
   .search {
     width: 90%;
-   
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 10px;
   }
 }
