@@ -8,8 +8,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  BarChart,
+  Bar,
 } from "recharts";
-import { BarChart, Bar } from "recharts";
 import CountUp from "react-countup";
 import "./MainContent.css";
 
@@ -58,17 +59,43 @@ const MainContent = () => {
     PLN: null,
   });
   const [searchQuery, setSearchQuery] = useState("");
-  const [visitorData, setVisitorData] = useState([]); // Ініціалізація стану для visitorData
+  const [topProducts, setTopProducts] = useState([]);
+  const [visitorData, setVisitorData] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  // Отримання курсу валют до гривні
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/data/products.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProducts(data);
+        setTopProducts(data.slice(0, 4));
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") return;
+
+    const foundProduct = products.find(
+      (product) => product.name.toLowerCase() === searchQuery.toLowerCase()
+    );
+
+    if (foundProduct && !topProducts.some((p) => p.id === foundProduct.id)) {
+      setTopProducts((prev) => [...prev.slice(0, 3), foundProduct]);
+    }
+  }, [searchQuery, topProducts, products]);
+
   useEffect(() => {
     const fetchExchangeRates = async () => {
       try {
-        // Отримуємо курс валют з API
-        const res = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/USD"
-        );
-        // Перевіряємо, чи була успішна відповідь
+        const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
         if (!res.ok) {
           throw new Error("Failed to fetch exchange rates");
         }
@@ -80,19 +107,13 @@ const MainContent = () => {
           PLN: data.rates.UAH / data.rates.PLN,
         });
       } catch (error) {
-        // Логуємо помилку у разі невдачі
         console.error("Error fetching exchange rates:", error);
-        setExchangeRates({
-          USD: 0,
-          EUR: 0,
-          CAD: 0,
-          PLN: 0,
-        });
+        setExchangeRates({ USD: 0, EUR: 0, CAD: 0, PLN: 0 });
       }
     };
-
     fetchExchangeRates();
   }, []);
+
 
   // Симулюємо запит до бази даних для отримання даних відвідувачів
   useEffect(() => {
@@ -115,16 +136,16 @@ const MainContent = () => {
       <div className="search-and-currency">
         {/* Пошук по сайту */}
         <div className="search">
-          <button>
-            <img src="/assets/images/search.svg" alt="Search" />
-          </button>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+        <button>
+          <img src="/assets/images/search.svg" alt="Search" />
+        </button>
+        <input
+        type="text"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      </div>
 
         {/* Курс валют */}
         <div className="currency">
@@ -213,75 +234,40 @@ const MainContent = () => {
 
         {/* Top Products Section */}
         <div className="section top-products">
-          <h3>Top Products</h3>
-          <table className="top-products-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Product Name</th>
-                <th>Popularity</th>
-                <th>Sales (%)</th>
+        <h3>Top Products</h3>
+        <table className="top-products-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product Name</th>
+              <th>Popularity</th>
+              <th>Sales (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topProducts.map((product, index) => (
+              <tr key={product.id}>
+                <td>{index + 1}</td>
+                <td>{product.name}</td>
+                <td>
+                  <div
+                    className="popularity-bar"
+                    style={{ width: `${product.popularity}%`, backgroundColor: product.color }}
+                  ></div>
+                </td>
+                <td>
+                  <div
+                    className="sales-percentage"
+                    style={{ color: product.color, border: `2px solid ${product.color}` }}
+                  >
+                    {product.sales}%
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {[
-                {
-                  id: 1,
-                  name: "Product A",
-                  popularity: 80,
-                  sales: 30,
-                  color: "#FCB859",
-                },
-                {
-                  id: 2,
-                  name: "Product B",
-                  popularity: 50,
-                  sales: 40,
-                  color: "#A9DFD8",
-                },
-                {
-                  id: 3,
-                  name: "Product C",
-                  popularity: 70,
-                  sales: 25,
-                  color: "#28AEF3",
-                },
-                {
-                  id: 4,
-                  name: "Product D",
-                  popularity: 60,
-                  sales: 50,
-                  color: "#F2C8ED",
-                },
-              ].map((product) => (
-                <tr key={product.id}>
-                  <td>{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>
-                    <div
-                      className="popularity-bar"
-                      style={{
-                        width: `${product.popularity}%`,
-                        backgroundColor: product.color,
-                      }}
-                    ></div>
-                  </td>
-                  <td>
-                    <div
-                      className="sales-percentage"
-                      style={{
-                        color: product.color,
-                        border: `2px solid ${product.color}`,
-                      }}
-                    >
-                      {product.sales}%
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
         {/* Customer Fulfilment Section */}
         <div className="section customer-fulfilment">

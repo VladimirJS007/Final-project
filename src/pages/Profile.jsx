@@ -9,21 +9,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import Login from "../components/Login.jsx";
 import "./Profile.css";
 
 const Profile = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("last3months");
   const [salesData, setSalesData] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Симуляція логіну
-  const login = (email, password) => {
-    if (email === "test@gmail.com" && password === "123456") {
+  const login = (email, password, setError) => {
+    if (email === "test@gmail.com" && password === "Test@123") {
       setIsAuthenticated(true);
       fetch("/data/fakeData.json")
         .then((response) => response.json())
@@ -37,13 +34,11 @@ const Profile = () => {
     }
   };
 
-  // Симуляція виходу
   const handleSignOut = () => {
     setIsAuthenticated(false);
     setUser(null);
   };
 
-  //Скорочення назви місяців, для красивого виводу на будь-якому екрані
   const monthsShort = {
     January: "Jan",
     February: "Feb",
@@ -59,32 +54,21 @@ const Profile = () => {
     December: "Dec",
   };
 
-  // Обробка вибору періоду
   const handlePeriodChange = (value) => {
     setSelectedPeriod(value);
-    setIsDropdownOpen(false); // Закриваємо кастомний список
+    setIsDropdownOpen(false);
   };
 
-  // Підготовка даних для діаграми
   const getChartData = (period) => {
     const sales = user?.monthlySales || {};
     let data = [];
-  
+
     if (period === "last3months") {
-      const months = ["October", "November", "December"];
-      months.forEach((month) => {
+      ["October", "November", "December"].forEach((month) => {
         data.push({ month: monthsShort[month], sales: sales[month] });
       });
     } else if (period === "last6months") {
-      const months = [
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      months.forEach((month) => {
+      ["July", "August", "September", "October", "November", "December"].forEach((month) => {
         data.push({ month: monthsShort[month], sales: sales[month] });
       });
     } else if (period === "last12months") {
@@ -92,7 +76,6 @@ const Profile = () => {
         data.push({ month: monthsShort[month], sales: sales[month] });
       }
     }
-  
     return data;
   };
 
@@ -109,41 +92,7 @@ const Profile = () => {
   ];
 
   if (!isAuthenticated) {
-    return (
-      <div className="login_form">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            login(email, password);
-          }}
-        >
-          <div className="login_form-rows">
-            <label htmlFor="email">Login</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="test@gmail.com"
-              required
-            />
-          </div>
-          <div className="login_form-rows">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="123456"
-              required
-            />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <button className="btn__login" type="submit">LogIn</button>
-        </form>
-      </div>
-    );
+    return <Login onLogin={login} />;
   }
 
   if (!user) {
@@ -157,34 +106,20 @@ const Profile = () => {
           <div className="user__resume">
             <img src={user.avatar} alt="Avatar" className="avatar" />
             <div>{user.name}</div>
-            <div>
-              <span>{user.role}</span>
-            </div>
+            <div><span>{user.role}</span></div>
           </div>
-          <button className="btn__logout" onClick={handleSignOut}>
-            LogOut
-          </button>
+          <button className="btn__logout" onClick={handleSignOut}>LogOut</button>
         </div>
         <div className="user-info__sales">
           <div className="user-sales-title">Sales Achievements</div>
-          <div
-            className="custom-dropdown"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
+          <div className="custom-dropdown" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <div className="dropdown-trigger">
-              {
-                periodOptions.find((option) => option.value === selectedPeriod)
-                  ?.label
-              }
+              {periodOptions.find((option) => option.value === selectedPeriod)?.label}
             </div>
             {isDropdownOpen && (
               <ul className="dropdown-options">
                 {periodOptions.map((option) => (
-                  <li
-                    key={option.value}
-                    onClick={() => handlePeriodChange(option.value)}
-                    className="dropdown-option"
-                  >
+                  <li key={option.value} onClick={() => handlePeriodChange(option.value)} className="dropdown-option">
                     {option.label}
                   </li>
                 ))}
@@ -199,12 +134,7 @@ const Profile = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="sales"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
+            <Line type="monotone" dataKey="sales" stroke="#8884d8" activeDot={{ r: 8 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>

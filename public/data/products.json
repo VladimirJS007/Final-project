@@ -1,0 +1,10 @@
+[
+  { "id": 1, "name": "Product A", "popularity": 80, "sales": 30, "color": "#FCB859" },
+  { "id": 2, "name": "Product B", "popularity": 50, "sales": 40, "color": "#A9DFD8" },
+  { "id": 3, "name": "Product C", "popularity": 70, "sales": 25, "color": "#28AEF3" },
+  { "id": 4, "name": "Product D", "popularity": 60, "sales": 50, "color": "#F2C8ED" },
+  { "id": 5, "name": "Product E", "popularity": 55, "sales": 20, "color": "#FFA07A" },
+  { "id": 6, "name": "Product F", "popularity": 90, "sales": 35, "color": "#9370DB" },
+  { "id": 7, "name": "Product G", "popularity": 45, "sales": 15, "color": "#20B2AA" },
+  { "id": 8, "name": "Product H", "popularity": 85, "sales": 45, "color": "#FF4500" }
+]

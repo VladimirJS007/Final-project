@@ -8,69 +8,6 @@
   box-sizing: border-box;
 }
 
-/* Стилі для форми авторизації */
-.login_form{
-  margin: 10rem auto 0;
-  padding: 0 12rem;
-  width: 50%; 
- }
-
-form {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto; 
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #282c34;
-  font-size: 2rem;
-}
-
-/* Стилі для полів вводу */
-.login_form-rows  {
-  display: flex;
-  justify-content: space-between;
-  margin: 1rem;
-}
-
-input {
-  padding: 1rem;
-  width: 70%;
-  border: 1px solid #87888c;
-  border-radius: 4px;
-  font-size: 1.6rem;
-}
-
-input:focus {
-  outline: none;
-  border-color: #282c34;
-}
-
-/* Стилі для кнопки login*/
-.btn__login {
-  padding: 10px;
-  font-size: 2rem;
-  margin: 0 1rem;
-  font-weight: 600;
-  background-color: #87888c;
-  border: 1px solid #87888c;
-  color: #282c34;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn__login:hover,
-.btn__login:active,
-.btn__logout:hover,
-.btn__logout:active {
-  background-color: #282c3400; 
-  color: #87888c;
-  border: 1px solid #87888c;
-  border-radius: 4px;
-  transition: all .5s;
-  cursor: pointer;
-}
 
 .user-info {
   display: flex;
@@ -170,14 +107,14 @@ font-style: italic;
 
 /* Ховер і активна опція */
 .dropdown-option:hover {
-  background-color: #282c3488; /* Змінюйте колір фону для ховера */
+  background-color: #282c3488; 
   color: white;
 }
 
 /* Додатково виділяємо вибрану опцію */
 .dropdown-option.selected {
   font-weight: bold;
-  background-color: #8884d8; /* Змінюйте колір для активної опції */
+  background-color: #8884d8; 
   color: white;
 }
 
